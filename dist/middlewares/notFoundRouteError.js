@@ -1,0 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.notFoundError = void 0;
+const notFoundError = (_req, res) => {
+    res.status(404).json({ success: false, message: "Route Not Found!!" });
+};
+exports.notFoundError = notFoundError;

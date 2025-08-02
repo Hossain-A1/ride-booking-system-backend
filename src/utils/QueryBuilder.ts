@@ -38,11 +38,17 @@ export class QueryBuilder<T> {
   }
   // -----------------------------//
 
-   sort(): this {
+  sort(): this {
     const sort = this.query.sort || "-createdAt";
 
     this.modelQuery = this.modelQuery.sort(sort);
 
+    return this;
+  }
+  // -----------------------------//
+
+  populate(field: string, poperty?: string): this {
+    this.modelQuery = this.modelQuery.populate(field, poperty);
     return this;
   }
   // -----------------------------//

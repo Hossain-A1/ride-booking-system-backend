@@ -6,7 +6,7 @@ import { bookRideZodSchema, updateRideZodSchema } from "./ride.validation";
 import { RideController } from "./ride.controller";
 
 const router = Router();
-
+//please age driver er role update korben, role ='DRIVER'
 router.post(
   "/request",
   checkIsAuthorized(...Object.values(UserRole)),
@@ -22,11 +22,7 @@ router.patch(
   RideController.handleUpdateRide
 );
 
-router.get(
-  "/",
-  checkIsAuthorized(UserRole.RIDER),
-  RideController.handleGetUserRides
-);
+
 
 router.get(
   "/",

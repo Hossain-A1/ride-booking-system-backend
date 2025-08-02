@@ -58,6 +58,7 @@ const makeTotalFare = (
 
 const bookRide = async (payload: IRide, decoded: JwtPayload) => {
   const rider = await UserModel.findById(decoded.userId);
+  const driver = await DriverModel.findOne({ user: payload.driver });
 
   if (!rider) {
     throw new AppError(404, "Rider not found with the id");
@@ -69,8 +70,6 @@ const bookRide = async (payload: IRide, decoded: JwtPayload) => {
   if (rider.role !== decoded.role) {
     throw new AppError(403, "You can not book this ride");
   }
-
-  const driver = await DriverModel.findOne({ user: payload.driver });
 
   if (!driver) {
     throw new AppError(
@@ -104,7 +103,7 @@ const bookRide = async (payload: IRide, decoded: JwtPayload) => {
 
   const newRide = {
     rider: rider._id,
-    driver: driver._id,
+    driver: driver.user,
     pickup: payload.pickup,
     destination: payload.destination,
     fare: totalFare,
@@ -221,7 +220,10 @@ const updateRide = async (
   return ride;
 };
 
-const getMyRides = async (decoded: JwtPayload,query:Record<string,string>) => {
+const getMyRides = async (
+  decoded: JwtPayload,
+  query: Record<string, string>
+) => {
   const userId = decoded.userId;
   const role = decoded.role;
   if (!userId || !role) {
@@ -230,14 +232,31 @@ const getMyRides = async (decoded: JwtPayload,query:Record<string,string>) => {
 
   let rides;
 
-  const queryBuilder =new QueryBuilder(RideModel.find(),query)
+  const ride = await RideModel.findOne({ driver: userId });
+
+  if (!ride) {
+    throw new AppError(404, "Ride not found");
+  }
+  if (!ride.rider) {
+    throw new AppError(404, "Ride not found with the userId");
+  }
+  if (!ride.driver) {
+    throw new AppError(404, "Driver not found with the userId");
+  }
+
+  const queryBuilder = new QueryBuilder(
+    RideModel.find({ $or: [{ rider: ride.rider }, { driver: ride.driver }] }),
+    query
+  );
 
   if (role === UserRole.RIDER) {
-    rides = await queryBuilder.filter().sort().build()
+    rides = await queryBuilder.filter().sort().build();
   } else if (role === UserRole.DRIVER) {
-    rides = await RideModel.find({ driver: userId })
-      .populate("rider", "name phone")
-      .sort({ createdAt: -1 });
+    rides = await queryBuilder
+      .filter()
+      .sort()
+      .populate("rider", "name email phone")
+      .build();
 
     const completedRides = rides.filter(
       (ride) => ride.status === RideStatus.COMPLETED
@@ -275,32 +294,11 @@ const getAllRide = async (query: Record<string, string>) => {
   };
 };
 
-const getAllUserRides = async (
-  user: JwtPayload,
-  query: Record<string, string>
-) => {
-  const queryBuilder = new QueryBuilder(
-    RideModel.find({ rider: user.userId }),
-    query
-  );
 
-  const rides = queryBuilder.search(["status"]).filter().sort().pagenate();
-
-  const [data, meta] = await Promise.all([
-    rides.build(),
-    queryBuilder.getMeta(),
-  ]);
-
-  return {
-    data,
-    meta,
-  };
-};
 
 export const RideServices = {
   bookRide,
   updateRide,
   getMyRides,
   getAllRide,
-  getAllUserRides,
 };

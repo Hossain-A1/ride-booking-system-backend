@@ -68,26 +68,11 @@ const handleGetAllRides = catchAsync(
   }
 );
 
-const handleGetUserRides = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const query = req.query as Record<string, string>;
-    const user = req.user as JwtPayload;
-    const rides = await RideServices.getAllUserRides(user, query);
 
-    sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "All ride return successfully",
-      data: rides.data,
-      meta: rides.meta,
-    });
-  }
-);
 
 export const RideController = {
   handleBookRide,
   handleUpdateRide,
   handleGetMyRides,
   handleGetAllRides,
-  handleGetUserRides,
 };
