@@ -1,0 +1,195 @@
+{
+	"info": {
+		"_postman_id": "afe8be29-a186-4731-844a-a84eca402526",
+		"name": "Ride-Booking-System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45455392",
+		"_collection_link": "https://hossain-56955.postman.co/workspace/Hossain's-Workspace~f628662b-9638-4e42-88ce-4a5fd24c4371/collection/45455392-afe8be29-a186-4731-844a-a84eca402526?action=share&source=collection_link&creator=45455392"
+	},
+	"item": [
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "get all user",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "action to user",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RIDE",
+			"item": [
+				{
+					"name": "ride request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODhjY2U3ZjAxNjJkMzFmNzlmNDU0ZmMiLCJlbWFpbCI6ImFsdnlAZ21haWwuY29tIiwicGhvbmUiOiIrODgwMTc5MTY4MTE4NCIsInJvbGUiOiJSSURFUiIsImlhdCI6MTc1NDEzNjY4NywiZXhwIjoxNzU0MjIzMDg3fQ.qm_y3zjzZb02BkTusD6y-aSCqKyXsO-jN-ooyN9FL68"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/2023.5.8"
+							},
+							{
+								"key": "Cookie",
+								"value": "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODg5YjFjZDY0YzA3Y2M5YzJjMDE2NWYiLCJlbWFpbCI6Im1vbmFAZ21haWwuY29tIiwicGhvbmUiOiIrODgwMTc5ODY4MTE0NCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NDA0NTQ5NywiZXhwIjoxNzU0MTMxODk3fQ.agvN33GMM042RdRsfOq2jgQMxVoloqxWLqauZcAuqEE; refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODg5YjFjZDY0YzA3Y2M5YzJjMDE2NWYiLCJlbWFpbCI6Im1vbmFAZ21haWwuY29tIiwicGhvbmUiOiIrODgwMTc5ODY4MTE0NCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NDA0NTQ5NywiZXhwIjoxNzU2NjM3NDk3fQ.UlQNIIsXdDsz5TN60Ce2wm-9IlAy3ZJDaMfaq1O7vrM"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"driver\": \"688cce9d0162d31f79f454fe\",\n  \"pickup\": {\n    \"lat\": 43.8103,\n    \"lng\": 90.4125\n  },\n  \"destination\": {\n    \"lat\": 43.7806,\n    \"lng\": 90.2792\n  }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/rides/request",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"rides",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update ride",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "get my ride",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "get all rides",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DRIVER",
+			"item": [
+				{
+					"name": "request driver",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "update driver",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODhjY2U5ZDAxNjJkMzFmNzlmNDU0ZmUiLCJlbWFpbCI6Imhvc3NhaW5AZ21haWwuY29tIiwicGhvbmUiOiIrODgwMTc5MTYyMTE4NCIsInJvbGUiOiJSSURFUiIsImlhdCI6MTc1NDEzMzkwNSwiZXhwIjoxNzU0MjIwMzA1fQ.VgFdxV-nOVR6Bmv3Lnh4Ym8jcTBYLfDX84Rj_qL8dcM"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "insomnia/2023.5.8"
+							},
+							{
+								"key": "Cookie",
+								"value": "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODg5YjFjZDY0YzA3Y2M5YzJjMDE2NWYiLCJlbWFpbCI6Im1vbmFAZ21haWwuY29tIiwicGhvbmUiOiIrODgwMTc5ODY4MTE0NCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NDA0NTQ5NywiZXhwIjoxNzU0MTMxODk3fQ.agvN33GMM042RdRsfOq2jgQMxVoloqxWLqauZcAuqEE; refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODg5YjFjZDY0YzA3Y2M5YzJjMDE2NWYiLCJlbWFpbCI6Im1vbmFAZ21haWwuY29tIiwicGhvbmUiOiIrODgwMTc5ODY4MTE0NCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1NDA0NTQ5NywiZXhwIjoxNzU2NjM3NDk3fQ.UlQNIIsXdDsz5TN60Ce2wm-9IlAy3ZJDaMfaq1O7vrM"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\"vehicleInfo\":{\n    \"model\":\"A42\",\n\t\"licensePlate\":\"Dhaka23\"\n\n    \n}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/drivers/approve/688df6b2817a649512352bc4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"drivers",
+								"approve",
+								"688df6b2817a649512352bc4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all driver",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
