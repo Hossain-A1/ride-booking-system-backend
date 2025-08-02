@@ -59,22 +59,9 @@ const handleGetAllRides = (0, catchAsync_1.catchAsync)((req, res, next) => __awa
         meta: rides.meta,
     });
 }));
-const handleGetUserRides = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = req.query;
-    const user = req.user;
-    const rides = yield ride_service_1.RideServices.getAllUserRides(user, query);
-    (0, sendResponse_1.sendResponse)(res, {
-        statusCode: 200,
-        success: true,
-        message: "All ride return successfully",
-        data: rides.data,
-        meta: rides.meta,
-    });
-}));
 exports.RideController = {
     handleBookRide,
     handleUpdateRide,
     handleGetMyRides,
     handleGetAllRides,
-    handleGetUserRides,
 };

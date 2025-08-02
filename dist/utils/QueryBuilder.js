@@ -43,6 +43,11 @@ class QueryBuilder {
         return this;
     }
     // -----------------------------//
+    populate(field, poperty) {
+        this.modelQuery = this.modelQuery.populate(field, poperty);
+        return this;
+    }
+    // -----------------------------//
     pagenate() {
         const page = Number(this.query.page) || 1;
         const limit = Number(this.query.limit) || 2;

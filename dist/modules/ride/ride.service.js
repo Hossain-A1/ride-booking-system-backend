@@ -44,6 +44,7 @@ const makeTotalFare = (pickup, destination) => {
 };
 const bookRide = (payload, decoded) => __awaiter(void 0, void 0, void 0, function* () {
     const rider = yield user_model_1.UserModel.findById(decoded.userId);
+    const driver = yield driver_model_1.DriverModel.findOne({ user: payload.driver });
     if (!rider) {
         throw new AppError_1.default(404, "Rider not found with the id");
     }
@@ -53,7 +54,6 @@ const bookRide = (payload, decoded) => __awaiter(void 0, void 0, void 0, functio
     if (rider.role !== decoded.role) {
         throw new AppError_1.default(403, "You can not book this ride");
     }
-    const driver = yield driver_model_1.DriverModel.findOne({ user: payload.driver });
     if (!driver) {
         throw new AppError_1.default(404, "Driver not found with that userModel role DRIVER id ");
     }
@@ -70,7 +70,7 @@ const bookRide = (payload, decoded) => __awaiter(void 0, void 0, void 0, functio
     const totalFare = makeTotalFare(payload.pickup, payload.destination);
     const newRide = {
         rider: rider._id,
-        driver: driver._id,
+        driver: driver.user,
         pickup: payload.pickup,
         destination: payload.destination,
         fare: totalFare,
@@ -165,14 +165,26 @@ const getMyRides = (decoded, query) => __awaiter(void 0, void 0, void 0, functio
         throw new AppError_1.default(400, "Invalid user data");
     }
     let rides;
-    const queryBuilder = new QueryBuilder_1.QueryBuilder(ride_model_1.RideModel.find(), query);
+    const ride = yield ride_model_1.RideModel.findOne({ driver: userId });
+    if (!ride) {
+        throw new AppError_1.default(404, "Ride not found");
+    }
+    if (!ride.rider) {
+        throw new AppError_1.default(404, "Ride not found with the userId");
+    }
+    if (!ride.driver) {
+        throw new AppError_1.default(404, "Driver not found with the userId");
+    }
+    const queryBuilder = new QueryBuilder_1.QueryBuilder(ride_model_1.RideModel.find({ $or: [{ rider: ride.rider }, { driver: ride.driver }] }), query);
     if (role === user_interface_1.UserRole.RIDER) {
         rides = yield queryBuilder.filter().sort().build();
     }
     else if (role === user_interface_1.UserRole.DRIVER) {
-        rides = yield ride_model_1.RideModel.find({ driver: userId })
-            .populate("rider", "name phone")
-            .sort({ createdAt: -1 });
+        rides = yield queryBuilder
+            .filter()
+            .sort()
+            .populate("rider", "name email phone")
+            .build();
         const completedRides = rides.filter((ride) => ride.status === ride_interface_1.RideStatus.COMPLETED);
         const totalEarnings = completedRides.reduce((acc, ride) => {
             const fare = typeof ride.fare === "number" ? ride.fare : 0;
@@ -200,22 +212,9 @@ const getAllRide = (query) => __awaiter(void 0, void 0, void 0, function* () {
         meta,
     };
 });
-const getAllUserRides = (user, query) => __awaiter(void 0, void 0, void 0, function* () {
-    const queryBuilder = new QueryBuilder_1.QueryBuilder(ride_model_1.RideModel.find({ rider: user.userId }), query);
-    const rides = queryBuilder.search(["status"]).filter().sort().pagenate();
-    const [data, meta] = yield Promise.all([
-        rides.build(),
-        queryBuilder.getMeta(),
-    ]);
-    return {
-        data,
-        meta,
-    };
-});
 exports.RideServices = {
     bookRide,
     updateRide,
     getMyRides,
     getAllRide,
-    getAllUserRides,
 };
